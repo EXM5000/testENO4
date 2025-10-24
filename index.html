@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ember & Oak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100;300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    .burger-cart-container {
+      display: none;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 12px;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-button {
+      display: inline-block;
+      padding: 10px 25px;
+      border: 1px solid #0d0d0d;
+      border-radius: 8px;
+      background: transparent;
+      color: #0d0d0d;
+      font-family: 'roboto';
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .card-button:hover {
+      background-color: #0d0d0d;
+      color: #f4f7f2;
+    }
+
+    .card-description {
+      font-family: 'roboto';
+      font-size: 0.95rem;
+      color: rgba(0,0,0,0.7);
+      line-height: 1.5;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'bodoni moda', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #0d0d0d;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .footer {
+      background-color: #0d0d0d;
+      color: #f4f7f2;
+      padding: 80px 10%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+      text-align: left;
+    }
+
+    .footer-bottom {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #ffffff99;
+    }
+
+    .footer-column {
+      max-width: 15vw;
+    }
+
+    .footer-column a {
+      display: block;
+      color: #ffffffc9;
+      text-decoration: none;
+      margin: 6px 0;
+      transition: color 0.3s ease;
+    }
+    .footer-column a:hover {
+      color: #fff;
+    }
+
+    .footer-contact i {
+      margin-right: 8px;
+    }
+
+    .footer h3 {
+      margin-bottom: 15px;
+      font-weight: 400;
+      color: #f4f7f2;
+    }
+
+    .footer p {
+      line-height: 1.6;
+      color: #ffffffc9;
+    }
+
+    .hero-button {
+      position: absolute;
+      bottom: 40px;
+      right: 60px;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      color: #0d0d0d; /* off-black semi-transparent */
+      border: 1px solid #0d0d0da6;
+      border-radius: 10px;
+      text-decoration: none;
+      background: transparent;
+      backdrop-filter: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      font-family: 'roboto', sans-serif;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-button:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .intros {
+      font-family: inherit;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: #f4f7f2;
+      margin-bottom: 100px;
+      justify-content: flex-start;
+      transform: translateY(-20vh);
+    }
+
+    .nav-cart a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 1.1rem; /* slightly bigger for emphasis */
+      color: #ffffffa6;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .newsletter-form button {
+      padding: 10px 25px;
+      border-radius: 8px;
+      border: 1px solid #fff;
+      background: transparent;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .newsletter-form button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .newsletter-form input[type="email"] {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #fff;
+      background: transparent;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    #cart-items {
+      max-height: 250px; /* limit height */
+      overflow-y: auto;  /* vertical scroll if needed */
+      padding: 0;
+      margin: 0 0 10px 0;
+    }
+    #cart-items button {
+      background: #ff4d4d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.3s ease;
+    }
+    #cart-items button:hover {
+      background: #e60000;
+    }
+    #cart-items li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    #cart-items li:last-child {
+      border-bottom: none;
+    }
+
+    #nav-cart-count {
+      background: #ffffffa6;
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: bold;
+      padding: 0px 4px;
+      border-radius: 50%;
+      position: absolute;
+      top: -8px;
+      right: -10px;
+    }
+
+
+
+    .placeholder {
+      height: 14vh; /* Extra space to allow scrolling */
+      background: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
+    }
+
+    .product {
+      min-width: 100%;
+      height: 80vh; /* keep height */
+      max-height: 200vh;
+      background-color: inherit;
+      transition: background-color 0.1s linear;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* push content to bottom */
+      align-items: center; /* center horizontally */
+      overflow: hidden;
+    }
+
+    .product-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      justify-content: center;
+      margin-top: 50px;
+      width: 80%;
+    }
+
+    .productHeader {
+      font-family: 'bodoni moda', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      text-align: center;
+      color: #0d0d0d;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      padding-top: 0;
+      margin-bottom: 0; /* spacing between header and cards herehere*/ 
+      transform: none;
+      opacity: 1;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;  /* Smooth scroll for JS */
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+      /* cursor: none !important; /* hide default cursor */
+      margin: 0;
+      font-family: 'roboto'; /* Apply Bodoni Moda globally */
+      background: #f7f6f2;
+      color: #fff; /* Default text color */
+      text-align: center;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      overflow-y: auto;
+      min-height: 100%;
+      scroll-snap-type: y mandatory; /* Revert to mandatory snap */
+    }
+
+    header, section {
+        scroll-snap-align: start;
+    }
+
+    header {
+      position: relative;
+      width: 100vw;
+      height: 100svh; /* full viewport including notch */
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+
+      background-image: url("img/flatLay1.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+
+      overflow: hidden; /* prevent scrollbars on Mac notch */
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 30px; /* adjust how tall the fade is */
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #f7f6f2aa 50%, #f7f6f2 90%);
+    }
+
+    .story {
+      background-color: inherit;
+      color: #0d0d0d;
+    }
+    .story-box {
+      /* Removed background, color, padding, border-radius, and box-shadow */
+      max-width: none;
+      min-width: 50%;
+      min-height: 500px;
+    }
+    .story-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .story-bubble:nth-child(1) {
+      width: 180px;
+      height: 180px;
+      top: 12%;
+      left: 10%;
+    }
+    .story-bubble:nth-child(2) {
+      width: 230px;
+      height: 230px;
+      top: 45%;
+      left: 28%;
+    }
+    .story-bubble:nth-child(3) {
+      width: 200px;
+      height: 200px;
+      top: 70%;
+      left: 0%;
+    }
+    .story-bubble:nth-child(4) {
+      width: 150px;
+      height: 150px;
+      top: 60%;
+      left: 65%;
+    }
+    .story-bubble:nth-child(5) {
+      width: 250px;
+      height: 250px;
+      top: 10%;
+      left: 50%;
+      background-position: center 80%;
+      background-size: 120%;
+    }
+    .story-bubble:hover {
+      transform: scale(1.05);
+    }
+    .story-bubbles {
+      position: relative;
+      width: 50%;
+      height: 600px;
+      left: 0;
+    }
+    .story-button {
+      display: inline-block;
+      padding: 10px 22px;
+      font-size: 1rem;
+      color: #0d0d0d;
+      border: 1px solid #0d0d0d;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .story-button:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    .story-container {
+      display: flex;
+      justify-content: flex-start; /* align to left */
+      align-items: center;
+      height: 100%;
+      padding: 3%;
+      box-sizing: border-box;
+    }
+    .story-text {
+      width: 45%;
+      padding-left: 5%;
+      color: #ffffffc9;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .story-title {
+      font-family: inherit;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #0d0d0d;
+    }
+    .story-body {
+      font-family: inherit;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #0d0d0d;
+      max-width: 80%;
+    }
+
+    /* Style for .view-scents-button inside .placeholder section only */
+    .placeholder .view-scents-button {
+      display: inline-block;
+      font-family: inherit;
+      padding: 10px 27px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      background-color: #fff;
+      color: #0d0d0d;
+      border: 1px solid #0d0d0d;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .placeholder .view-scents-button:hover {
+      background-color: #0d0d0d;
+      color: #fff;
+    }
+
+    /* Navigation bar styling */
+    nav {
+      position: fixed; /* Fixes the navbar at the top */
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      color: #0d0d0da6;
+      padding: 25px 20px 20px;
+      display: flex;
+      justify-content: space-between; /* Space between logo and links */
+      align-items: center;
+      z-index: 1000; /* Ensures navbar stays above other elements */
+    }
+    /* Logo styling */
+    nav .logo {
+      font-size: 1.3rem; /* Adjust logo font size */
+      font-weight: 400; /* Bold logo text */
+      padding-left: 3.5%;
+      font-family: 'Bodoni Moda', serif;
+      color: #0d0d0da6;
+    }
+    /* Navigation links container */
+    nav ul {
+      list-style: none; /* Remove bullet points */
+      margin: 0;
+      padding: 0;
+      display: flex; /* Align links horizontally */
+      gap: 20px; /* Space between links */
+      padding-right: 5%;
+    }
+    /* Individual navigation links */
+    nav ul li a {
+      font-family: 'Bodoni Moda', serif;
+      color: #0d0d0da6;
+      text-decoration: none; /* Remove underline */
+      font-size: 1rem; /* Adjust link font size */
+      /* transition: color 0.3s ease;  Smooth hover effect */
+    }
+    /* nav-dark styling */
+    nav.nav-dark ul li a {
+      color: #000000a6;
+    }
+
+    /* Default: hide the new burger-cart container */
+
+    /* Mobile layout */
+    @media (max-width: 768px) {
+      /* Prevent horizontal overflow globally on mobile */
+      body, html {
+        overflow-x: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+      }
+
+      /* Disable scroll snapping on mobile */
+      body {
+        scroll-snap-type: none !important;
+      }
+
+      /* Center and align main containers on mobile */
+      header, .story-container, .product-cards, .footer, .placeholder {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        left: 0;
+        right: 0;
+        width: 100vw !important;
+        box-sizing: border-box;
+      }
+
+      /* Show burger + cart container on small screens */
+      .burger-cart-container {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-right: 0 !important;
+        padding-right: 5vw;
+      }
+
+      /* --- QUICK FIX: Move burger-cart-container to the left on mobile --- */
+      .burger-cart-container {
+        justify-content: flex-start !important;
+        margin-left: 1vw !important;
+        margin-right: 3vw !important;
+      }
+
+      /* Hide the desktop cart inside the menu */
+      nav ul .nav-cart {
+        display: none !important;
+      }
+
+      /* Ensure all burger menu text and burger icon lines are off-black on mobile */
+      nav ul li a,
+      .nav-cart a,
+      .burger span {
+        color: #0d0d0d !important;
+      }
+    }
+
+    /* Responsive styles for smaller screens */
+    @media (max-width: 768px) {
+      /* --- PRODUCT SECTION: Make background off-white and reduce vertical height --- */
+      .product {
+        background-color: #f4f7f2 !important; /* off-white background */
+        height: auto !important; /* allow height to shrink */
+
+        min-height: auto;
+      }
+      nav .logo {
+        font-size: 1.1rem;
+      }
+      /* --- Enhanced Burger Menu Dropdown Animation and Overflow Prevention --- */
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #f4f7f2;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        border-radius: 0 0 8px 8px;
+        z-index: 1001;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+      }
+      nav ul.show {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #f4f7f2;
+        padding: 20px 0;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        max-height: 500px;
+        opacity: 1;
+        transform: translateY(0);
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+      .nav-cart {
+        margin-top: 0px;
+      }
+      .nav-cart a {
+        color: #0d0d0d;
+        font-size: 1.2rem;
+        text-decoration: none;
+      }
+      #nav-cart-count {
+        background: #ffffffa6;
+        color: #0d0d0d;
+      }
+      nav ul li {
+        width: 100%;
+        text-align: center;
+        margin: 10px 0;
+      }
+      nav ul li:not(:last-child) {
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+      }
+      nav ul li a {
+        display: block;
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 10px 0;
+        color: #0d0d0d;
+      }
+      /* Burger menu icon */
+      .burger {
+        display: block;
+        width: 25px;
+        height: 20px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1002;
+        margin-right: 10%;
+        color: #ffffffa6 !important;
+      }
+      .burger span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background: #ffffffa6;
+        border-radius: 2px;
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+      /* Hide cursor none on burger */
+      .burger, .burger span {
+        cursor: pointer !important;
+      }
+
+      /* --- STORY SECTION: Hide bubbles, expand text --- */
+      .story-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 4vw !important;    /* Reduce top space */
+        padding-left: 3vw;
+        padding-right: 3vw;
+        height: auto;
+      }
+      .story-bubbles {
+        display: none !important;
+      }
+      .story-text {
+        width: 90vw !important; /* thinner than 98vw */
+        max-width: 90vw;
+        padding-left: 0;
+        padding-right: 0;
+        box-sizing: border-box;
+        align-items: flex-start;
+        text-align: left;
+        /* Ensure text wraps and does not overflow */
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      .story-title {
+        font-size: 2rem;
+        margin-bottom: 12px;
+      }
+      .story-body {
+        font-size: 1rem;
+        max-width: 100%;
+        margin-bottom: 18px;
+        /* Ensure body text wraps and does not overflow */
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      .story-button {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+      }
+
+      /* --- FOOTER SECTION: Stack columns, full-width, adjust text --- */
+      .footer {
+        grid-template-columns: 1fr !important;
+        padding: 40px 5vw;
+        gap: 24px;
+        text-align: left !important;
+      }
+      .footer-column {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 0 12px 0 !important;
+        box-sizing: border-box;
+      }
+      .footer h3 {
+        font-size: 1.15rem;
+        margin-bottom: 6px;
+      }
+      .footer p, .footer-column a {
+        font-size: 0.97rem;
+        text-align: left !important;
+      }
+      .footer-bottom {
+        margin-top: 28px;
+        font-size: 0.85rem;
+        padding-bottom: 10px;
+      }
+
+      /* --- PRODUCT CARDS: More compact grid, smaller padding/font --- */
+      .product-cards {
+        width: 98vw !important;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 18px;
+        grid-template-columns: 1fr;
+        margin-top: 25px;
+      }
+      .card {
+        padding: 18px 8px;
+        font-size: 0.98rem;
+      }
+      .card-title {
+        font-size: 1.07rem;
+      }
+      .card-description {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+      }
+      .card-image {
+        height: 140px;
+        margin-bottom: 10px;
+      }
+      .card-button {
+        font-size: 0.92rem;
+        padding: 8px 16px;
+      }
+
+      /* --- GENERAL/MISC: Reduce paddings/font sizes for mobile --- */
+      .intros {
+        font-size: 1.05rem;
+        margin-bottom: 40px;
+        transform: none;
+      }
+      .productHeader {
+        font-size: 1.4rem;
+        margin-bottom: 0;
+        padding-top: 0;
+      }
+      .placeholder {
+        padding-top: 20px;
+        height: 10vh;
+      }
+      .view-scents-button {
+        font-size: 1rem;
+        padding: 8px 14px;
+        /* Center horizontally and move slightly upward */
+        display: block;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        position: relative;
+        transform: translateY(-10px);
+        text-align: center;
+        background-color: #0d0d0d !important;
+        color: #f4f7f2 !important;
+        border: 1px solid #0d0d0d !important;
+      }
+      header {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        align-items: flex-start;
+        min-height: 80vh;
+      }
+      .hero-button {
+        font-size: 0.98rem;
+        padding: 9px 16px;
+        /* Center horizontally and move slightly upward */
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        scale: 1.2;
+        position: relative;
+        transform: translateY(37vh); /* move it slightly up */
+        text-align: center;
+        color: #0d0d0da6;
+        border: 1px solid #0d0d0da6;
+        background: transparent;
+      }
+      /* Remove fade transition for #page-content on small screens */
+      /* --- NEWSLETTER FORM: Make narrower, center, and align input and button widths on mobile --- */
+      .newsletter-form {
+        width: 90% !important;
+        max-width: 300px !important;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        box-sizing: border-box;
+      }
+      .newsletter-form input[type="email"],
+      .newsletter-form button {
+        width: 100% !important;
+        box-sizing: border-box;
+        margin: 2 !important;
+      }
+        /* Hide the newsletter section only on mobile */
+        .newsletterTitle {
+        display: none !important;
+      }
+    }
+
+        /* ---- FEATURES SECTION ---- */
+    .features {
+      background: #0d0d0d;
+      padding: 70px 0 60px 0;
+      color: #f7f6f2;
+      height: auto;
+    }
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 38px;
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      width: 90%;
+    }
+    .feature-card {
+      background: linear-gradient(135deg, #faf9f6 70%, #f1efe8 100%);
+      border: 1px solid rgba(13,13,13,0.08);
+      border-radius: 16px;
+      box-shadow: 0 6px 24px rgba(13,13,13,0.07);
+      padding: 38px 24px 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.25s, transform 0.22s;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card:hover {
+      box-shadow: 0 12px 36px rgba(13,13,13,0.14), 0 2px 8px rgba(13,13,13,0.09);
+      transform: translateY(-8px) scale(1.025);
+    }
+    .feature-card .feature-icon {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 4px 12px rgba(80,60,20,0.13));
+      transition: filter 0.22s, opacity 0.22s;
+      opacity: 0.92;
+    }
+    .feature-card:hover .feature-icon {
+      filter: drop-shadow(0 8px 24px rgba(80,60,20,0.21));
+      opacity: 1;
+    }
+    .feature-card .card-title {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.23rem;
+      font-weight: 500;
+      color: #0d0d0d;
+      margin-bottom: 10px;
+      margin-top: 0;
+      text-align: center;
+      text-shadow: 0 2px 7px #f1efe820;
+      border-bottom: 2px solid #e5e2d8;
+      display: inline-block;
+      padding-bottom: 3px;
+      letter-spacing: 0.01em;
+      min-width: 120px;
+    }
+    .feature-card .card-description {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      color: #222;
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 0;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      padding: 0 2px;
+    }
+    @media (max-width: 768px) {
+      .feature-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 18px;
+      }
+      .feature-card {
+        padding: 18px 8px 18px 8px;
+      }
+      .feature-card .feature-icon {
+        width: 42px;
+        height: 42px;
+        margin-bottom: 8px;
+      }
+      .feature-card .card-title {
+        font-size: 1.07rem;
+        min-width: 0;
+      }
+      .feature-card .card-description {
+        font-size: 0.93rem;
+        margin-top: 7px;
+      }
+    }
+
+    .footer-payment-methods {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #ffffff99;
+      font-size: 0.9rem;
+    }
+
+    /* .payment-cards-container, .payment-card { */
+    /*   display: flex; */
+    /*   gap: 6px; */
+    /*   flex-wrap: wrap; */
+    /* } */
+
+    .payment-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .payment-icon {
+      width: 60px;
+      height: 36px;
+      display: inline-block;
+    }
+    </style>
+</head>
+<body>
+  <!-- Transparent navigation bar -->
+  <nav>
+    <div class="logo">
+      <a href="#header" style="text-decoration: none; color: inherit;">Ember & Oak</a>
+    </div>
+    <div class="burger-cart-container">
+      <div class="burger" aria-label="Toggle menu" role="button" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-cart mobile-cart">
+        <a href="Functionality/cart.html" id="nav-cart-button">
+          🛒 <span id="nav-cart-count">0</span>
+        </a>
+      </div>
+    </div>
+    <ul>
+      <li><a href="Text/Story.html">About</a></li>
+      <li><a href="Text/Ethos.html">Contact</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="Text/CandleCare.html">Tending</a></li>
+      <li class="nav-cart">
+        <a href="Functionality/cart.html" id="nav-cart-button">
+          🛒 <span id="nav-cart-count">0</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.burger');
+    const navMenu = document.querySelector('nav ul');
+
+    burger.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    document.querySelectorAll('nav ul li a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+      });
+    });
+  });
+</script>
+  <div id="page-content">
+    <!-- Hero section -->
+    <header id="header">
+      <a href="collections.html" class="hero-button">View All Scents &#8594;</a>
+    </header>
+
+    <!-- Product section -->
+    <section class="product">
+      <h1 class="productHeader">The Holiday Collection</h1>
+      <div class="product-cards">
+        <div class="card" data-price="19.99">
+          <img src="https://source.unsplash.com/400x300/?candle,light" alt="Okanagan Vinyard" class="card-image">
+          <div class="card-title">Okanagan Vinyard</div>
+          <p class="card-description">A crisp, earthy scent inspired by rolling vineyards and golden sunlight.</p>
+          <a href="#" class="card-button">Add to Cart</a>
+        </div>
+        <div class="card" data-price="19.99">
+          <img src="https://source.unsplash.com/400x300/?flame,dark" alt="Midnight Embers" class="card-image">
+          <div class="card-title">Midnight Embers</div>
+          <p class="card-description">Warm, smoky notes with hints of amber and spice — perfect for quiet nights.</p>
+          <a href="#" class="card-button">Add to Cart</a>
+        </div>
+        <div class="card" data-price="19.99">
+          <img src="https://source.unsplash.com/400x300/?plum,glass" alt="Velvet Plum" class="card-image">
+          <div class="card-title">Velvet Plum</div>
+          <p class="card-description">Deep, fruity tones with a touch of sweetness for a soft, elegant atmosphere.</p>
+          <a href="#" class="card-button">Add to Cart</a>
+        </div>
+        <div class="card" data-price="19.99">
+          <img src="https://source.unsplash.com/400x300/?fir,forest" alt="Fraiser Fir" class="card-image">
+          <div class="card-title">Fraiser Fir</div>
+          <p class="card-description">Fresh, forest-inspired aroma reminiscent of evergreen mornings.</p>
+          <a href="#" class="card-button">Add to Cart</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="placeholder">
+      <a href="collections.html" class="view-scents-button">View All Scents</a>
+    </section>
+
+    <section class="features">
+      <h1 class="productHeader featuresHeader" style="color: #f7f6f2;">Why Our Candles Stand Out</h1>
+      <div class="feature-cards">
+        <div class="card feature-card">
+          <img src="https://img.icons8.com/?size=100&id=35583&format=png&color=000000" alt="Non-Toxic Icon" class="feature-icon" />
+          <div class="card-title">Non-Toxic</div>
+          <div class="card-description">
+            Made with safe, natural ingredients—no phthalates, parabens, or artificial dyes.
+          </div>
+        </div>
+        <div class="card feature-card">
+          <img src="https://img.icons8.com/?size=100&id=2512&format=png&color=000000" alt="Audible Wicks Icon" class="feature-icon" />
+          <div class="card-title">Eco-Wicks</div>
+          <div class="card-description">
+            Cotton & soy wicks that check all the boxes, carefully curated for longer burn times.
+          </div>
+        </div>
+        <div class="card feature-card">
+          <img src="https://img.icons8.com/?size=100&id=25534&format=png&color=000000" alt="Thumbs Up Icon" class="feature-icon" />
+          <div class="card-title">Guerenteed Perfection</div>
+          <div class="card-description">
+            We guerantee a flawless burn. If not, we'll replace your candle without hassle.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story section -->
+    <section class="story">
+      <div class="story-container">
+        <div class="story-bubbles">
+          <div class="story-bubble" style="background-image: url('img/image.png');"></div>
+          <div class="story-bubble" style="background-image: url('img/otherbubble.jpg');"></div>
+          <div class="story-bubble" style="background-image: url('img/HEIC\ to\ JPG\ 4423.jpg');"></div>
+          <div class="story-bubble" style="background-image: url('img/HEIC\ to\ JPG\ Image\ \(1\).jpg');"></div>
+          <div class="story-bubble" style="background-image: url('img/IMG_7711.JPG');"></div>
+        </div>
+        <div class="story-text">
+          <h2 class="story-title">Our Story</h2>
+          <p class="story-body">
+            Ember & Oak carries a belief that a candle should do more than scent a room — it should tell a story. Each flame represents a moment of calm, crafted with natural ingredients and timeless design.
+            <br><br>However, our first attempts lacked that sense of purpose. Find out how we became what we are today, after a series of failures.</p>
+          <a href="Text/Story.html" class="story-button">Read More</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- Footer Section -->
+  <footer class="footer">
+    <!-- Column 1 -->
+    <div class="footer-column">
+      <h3>Ember & Oak</h3>
+      <p>We create candles designed around emotion — blending natural ingredients with timeless design for moments of calm and connection.</p>
+    </div>
+  
+    <!-- Column 2 -->
+    <div class="footer-column">
+      <h3>Browse</h3>
+      <a href="#header">Home</a>
+      <a href="collections.html">Collections</a>
+      <a href="Text/Story.html">Our Story</a>
+      <a href="Text/Ethos.html">Contact</a>
+      <a href="Text/CandleCare.html">Candle Care</a>
+    </div>
+  
+    <!-- Column 3 -->
+    <div class="footer-column footer-contact">
+      <h3>Contact</h3>
+      <p><i>✉️</i> info@eandoak.ca</p>
+    </div>
+  
+    <!-- Column 4 -->
+    <div class="footer-column newsletter">
+      <h3 class="newsletterTitle">Be the first to get your hands on new scents!</h3>
+      <form action="https://eandoak.us3.list-manage.com/subscribe/post?u=0a965ac48983e8ae55ae3ab49&amp;id=29e2e20e94&amp;f_id=000aa6e0f0" 
+            method="post" class="newsletter-form" target="_blank">
+        <input type="email" name="EMAIL" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  
+    <div class="footer-bottom">
+      <div class="footer-bottom-container" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
+        <div class="footer-copyright" style="color:#ffffff99; font-size:0.9rem;">
+          Secure payments by Square &nbsp; | &nbsp; © 2025 Evan Mottley and Ember & Oak. All rights reserved.
+        </div>
+        <div class="footer-payment-methods">
+          <ul class="payment-icons">
+            <li>
+              <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Visa">
+                <rect width="38" height="24" rx="4" fill="white"/>
+                <text x="6" y="16" font-family="Arial, sans-serif" font-weight="bold" font-size="10" fill="#1A1F71">VISA</text>
+              </svg>
+            </li>
+            <li>
+              <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mastercard">
+                <rect width="38" height="24" rx="4" fill="white"/>
+                <circle cx="16" cy="12" r="6" fill="#EB001B"/>
+                <circle cx="22" cy="12" r="6" fill="#F79E1B"/>
+              </svg>
+            </li>
+            <li>
+              <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="American Express">
+                <rect width="38" height="24" rx="4" fill="white"/>
+                <text x="4" y="15" font-family="Arial, sans-serif" font-weight="bold" font-size="7" fill="#2E77BC">AMEX</text>
+              </svg>
+            </li>
+            <li>
+              <svg class="payment-icon" viewBox="0 0 38 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Discover">
+                <rect width="38" height="24" rx="4" fill="white"/>
+                <text x="4" y="15" font-family="Arial, sans-serif" font-weight="bold" font-size="7" fill="#FF6F00">DISCOVER</text>
+              </svg>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+
+
+<script>
+// --- CONSOLIDATED CART LOGIC WITH ACCURATE COUNT DISPLAY ---
+(function() {
+  // Helper: get all cart count elements (desktop and mobile)
+  function getCartCountElements() {
+    return Array.from(document.querySelectorAll('#nav-cart-count'));
+  }
+
+  // Load cart from localStorage or empty array
+  function getCart() {
+    try {
+      const c = JSON.parse(localStorage.getItem('cart'));
+      return Array.isArray(c) ? c : [];
+    } catch {
+      return [];
+    }
+  }
+
+  // Save cart to localStorage
+  function setCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Returns total number of items (sum of qtys)
+  function cartTotalCount(cart) {
+    if (!Array.isArray(cart)) return 0;
+    return cart.reduce((sum, item) => sum + (parseInt(item.qty)||1), 0);
+  }
+
+  // Update all cart count displays
+  function updateCartCountDisplay() {
+    const cart = getCart();
+    const count = cartTotalCount(cart);
+    getCartCountElements().forEach(el => {
+      if (el) el.textContent = count;
+    });
+  }
+
+  // Add item to cart and update
+  function addToCart(name, price) {
+    let cart = getCart();
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.qty = (parseInt(existing.qty)||1) + 1;
+    } else {
+      cart.push({name, price, qty: 1});
+    }
+    setCart(cart);
+    updateCartCountDisplay();
+  }
+
+  // Attach event listeners to Add to Cart buttons
+  function attachCartButtons() {
+    document.querySelectorAll('.card-button').forEach(button => {
+      // Remove previous handler if present
+      if (button._cartHandler) {
+        button.removeEventListener('click', button._cartHandler);
+      }
+      button._cartHandler = function(e) {
+        e.preventDefault();
+        const card = button.closest('.card');
+        if (!card) return;
+        const name = card.querySelector('.card-title')?.textContent?.trim();
+        const price = parseFloat(card.getAttribute('data-price')) || 0;
+        if (name) addToCart(name, price);
+      };
+      button.addEventListener('click', button._cartHandler);
+    });
+  }
+
+  // Listen for storage changes (cross-tab sync)
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'cart') {
+      updateCartCountDisplay();
+    }
+  });
+
+  // On DOMContentLoaded or page swap, update count and attach buttons
+  function initializeCartLogic() {
+    updateCartCountDisplay();
+    attachCartButtons();
+  }
+  // Expose for instant navigation swaps
+  window.attachCartButtons = attachCartButtons;
+  window.updateCart = updateCartCountDisplay;
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCartLogic);
+  } else {
+    initializeCartLogic();
+  }
+})();
+</script>
+<script>
+// --- INSTANT PAGE NAVIGATION (VANILLA JS) ---
+document.addEventListener('DOMContentLoaded', function() {
+  // Only handle navigation for internal links within nav
+  function isInternalLink(a) {
+    return a.hostname === window.location.hostname && !a.hasAttribute('target') && !a.href.startsWith('mailto:') && !a.href.startsWith('tel:');
+  }
+  function getPageContent(html) {
+    // Extract #page-content inner HTML from the fetched HTML string
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    const found = temp.querySelector('#page-content');
+    return found ? found.innerHTML : '';
+  }
+  const pageContent = () => document.getElementById('page-content');
+  function fadeOutInSwap(newHtml, cb) {
+    const el = pageContent();
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.innerHTML = newHtml;
+      el.style.opacity = '0';
+      // Re-attach dynamic handlers (cart, etc.)
+      if (typeof attachCartButtons === 'function') attachCartButtons();
+      // Optionally, re-run updateCart to update UI
+      if (typeof updateCart === 'function') updateCart();
+      setTimeout(() => {
+        el.style.opacity = '1';
+        if(cb) cb();
+      }, 20);
+    }, 400);
+  }
+
+  function handleLinkClick(e) {
+    // Only left click, no ctrl/meta, and internal link
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    let a = e.target;
+    while (a && a.tagName !== 'A') a = a.parentElement;
+    if (!a || !a.getAttribute('href')) return;
+    if (!isInternalLink(a)) return;
+    const href = a.getAttribute('href');
+    // Only handle real navigation (not just #anchor)
+    if (href.startsWith('#')) return;
+    e.preventDefault();
+    fetch(href)
+      .then(resp => resp.text())
+      .then(html => {
+        const newContent = getPageContent(html);
+        if(newContent) {
+          fadeOutInSwap(newContent, () => {
+            window.scrollTo(0,0);
+          });
+          history.pushState(null, '', href);
+        } else {
+          window.location = href; // fallback
+        }
+      })
+      .catch(() => { window.location = href; });
+  }
+  // Attach to nav links
+  function navListenerSetup() {
+    document.querySelectorAll('nav a').forEach(a => {
+      a.removeEventListener('click', handleLinkClick);
+      a.addEventListener('click', handleLinkClick);
+    });
+  }
+  navListenerSetup();
+  // Re-attach nav listeners after swaps
+  document.addEventListener('pageContentSwapped', navListenerSetup);
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', function() {
+    fetch(window.location.pathname)
+      .then(resp => resp.text())
+      .then(html => {
+        const newContent = getPageContent(html);
+        if(newContent) {
+          fadeOutInSwap(newContent, () => {
+            window.scrollTo(0,0);
+          });
+        } else {
+          window.location.reload();
+        }
+      })
+      .catch(() => { window.location.reload(); });
+  });
+});
+</script>
+<script>
+  // Parallax scrolling for header
+  const header = document.querySelector('header');
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    header.style.backgroundPositionY = `${scrollY * 0.27}px`;
+  }
+
+  // Initialize on load
+  updateParallax();
+
+  // Update on scroll
+  window.addEventListener('scroll', updateParallax);
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.querySelector('nav');
+    const hero = document.getElementById('header');
+    const offWhite = '#f7f6f2'; // your off-white background
+    const offBlack = '#0d0d0d'; // off-black text
+    const darkBg = '#00000000';   // dark background after hero
+    const lightText = '#0d0d0da6'; // light text after hero
+  
+    function updateNavColor() {
+      const scrollY = window.scrollY;
+      const heroHeight = hero.offsetHeight;
+  
+      if (scrollY < heroHeight) {
+        nav.style.backgroundColor = offWhite;
+        nav.querySelectorAll('a, .burger span').forEach(el => {
+          el.style.color = offBlack;
+        });
+      } else {
+        nav.style.backgroundColor = darkBg;
+        nav.querySelectorAll('a, .burger span').forEach(el => {
+          el.style.color = lightText;
+        });
+      }
+    }
+  
+    window.addEventListener('scroll', updateNavColor);
+    updateNavColor(); // initialize on load
+  });
+  </script>
+</html>
