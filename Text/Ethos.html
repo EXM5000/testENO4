@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Ember & Oak</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "roboto";
+        background-color: #f4f7f2;
+        color: #0d0d0d;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        color: #fff;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      nav .logo {
+        font-size: 1.3rem;
+        font-weight: 400;
+        padding-left: 3.5%;
+        color: #000000a6;
+        font-family: "bodoni moda", serif;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+        padding-right: 5%;
+      }
+
+      nav ul li a {
+        font-family: "bodoni moda", serif;
+        color: #000000a6;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .nav-cart a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1.1rem;
+        color: #ffffffa6;
+        text-decoration: none;
+        position: relative;
+      }
+
+      #nav-cart-count {
+        background: #ffffffa6;
+        color: #000000;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0px 4px;
+        border-radius: 50%;
+        position: absolute;
+        top: -8px;
+        right: -10px;
+      }
+
+      /* Footer styles - Unified dark theme */
+      .footer {
+        background-color: #0d0d0d;
+        color: #f4f7f2;
+        padding: 80px 10%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 40px;
+        text-align: left;
+      }
+
+      .footer h3 {
+        margin-bottom: 15px;
+        font-weight: 400;
+        color: #f4f7f2;
+      }
+
+      .footer p {
+        line-height: 1.6;
+        color: #ffffffc9;
+      }
+
+      .footer-column {
+        max-width: 15vw;
+      }
+
+      .footer-column a {
+        display: block;
+        color: #ffffffc9;
+        text-decoration: none;
+        margin: 6px 0;
+        transition: color 0.3s ease;
+      }
+
+      .footer-column a:hover {
+        color: #fff;
+      }
+
+      .footer-contact i {
+        margin-right: 8px;
+      }
+
+      .newsletter-form input[type="email"] {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .newsletter-form button {
+        padding: 10px 25px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .newsletter-form button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-bottom {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #ffffff99;
+      }
+
+      .payment-icons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+      }
+
+      .payment-icon {
+        width: 60px;
+        height: 36px;
+        display: inline-block;
+      }
+
+      /* Story image placeholders */
+      .story-image-placeholder {
+        height: 250px;
+        background-color: #ddd;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="../index.html" style="text-decoration: none; color: inherit"
+          >Ember & Oak</a
+        >
+      </div>
+      <ul>
+        <li><a href="Story.html">About</a></li>
+        <li><a href="Ethos.html">Contact</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="CandleCare.html">Tending</a></li>
+        <li class="nav-cart">
+          <a href="../Functionality/cart.html" id="nav-cart-button">
+            🛒 <span id="nav-cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- FAQ & Contact Section -->
+    <div
+      id="page-content"
+      style="
+        padding-top: 140px;
+        padding-bottom: 60px;
+        max-width: 700px;
+        margin: 0 auto;
+      "
+    >
+      <h1
+        style="
+          font-family: 'Bodoni Moda', serif;
+          font-weight: 500;
+          font-size: 2.5rem;
+          margin-bottom: 1.5rem;
+          letter-spacing: 0.03em;
+        "
+      >
+        FAQ &amp; Contact
+      </h1>
+      <p
+        style="
+          font-size: 1.18rem;
+          line-height: 1.7;
+          color: #222;
+          font-family: 'Roboto', sans-serif;
+          margin-bottom: 2.5rem;
+        "
+      >
+        Welcome to our FAQ &amp; Contact page. Here you’ll find answers to
+        common questions and ways to reach us. If you need further assistance,
+        our team is always happy to help.
+      </p>
+
+      <section style="margin-bottom: 3.5rem">
+        <h2
+          style="
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 400;
+            font-size: 1.65rem;
+            margin-bottom: 1.2rem;
+            color: #191919;
+          "
+        >
+          Frequently Asked Questions
+        </h2>
+        <div
+          class="faq-accordion"
+          style="
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.07rem;
+            color: #222;
+          "
+        >
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              Do you offer shipping outside of Canada?
+            </button>
+            <div class="faq-answer">
+              <p style="margin: 0; color: #444">
+                Currently, we ship within Canada and the US. For international
+                requests, please contact us directly and we’ll do our best to
+                accommodate you.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              Can I request a custom scent or order?
+            </button>
+            <div class="faq-answer">
+              <p style="margin: 0; color: #444">
+                Absolutely! We love collaborating on custom scents and special
+                orders for events or gifts. Reach out via the contact form below
+                with your ideas.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              How do I care for my candle?
+            </button>
+            <div class="faq-answer">
+              <p style="margin: 0; color: #444">
+                For the best burn, allow the wax to melt fully to the edges on
+                first use, and trim the wooden wick to 1/4 inch before each
+                lighting. For more tips, visit our
+                <a href="CandleCare.html" class="faq-link">Candle Care</a> page.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              What is your return or exchange policy?
+            </button>
+            <div class="faq-answer">
+              <p style="margin: 0; color: #444">
+                If you’re not completely satisfied, please contact us within 14
+                days of receiving your order. We’ll work with you to arrange a
+                return, exchange, or refund as needed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2
+          style="
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 400;
+            font-size: 1.65rem;
+            margin-bottom: 1.2rem;
+            color: #191919;
+          "
+        >
+          Contact Us
+        </h2>
+        <div
+          style="
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.07rem;
+            color: #222;
+            margin-bottom: 2rem;
+          "
+        >
+          <p style="margin-bottom: 0.5em">
+            We’d love to hear from you. Reach us directly at:
+          </p>
+          <ul style="list-style: none; padding: 0; margin: 0 0 1.2em 0">
+            <li style="margin-bottom: 0.2em">
+              <span style="font-family: 'Bodoni Moda', serif">✉️</span>
+              <a href="mailto:info@eandoak.ca" class="contact-link"
+                >info@eandoak.ca</a
+              >
+            </li>
+          </ul>
+          <p style="margin-bottom: 1.2em">
+            Or send us a message using the form below:
+          </p>
+        </div>
+        <form
+          action="https://formspree.io/f/movkkpog"
+          method="POST"
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 1.1em;
+            max-width: 430px;
+            background: #f9faf7;
+            border-radius: 12px;
+            padding: 2.1em 2em 1.6em 2em;
+            box-shadow: 0 2px 12px #0001;
+          "
+        >
+          <label
+            for="contact-name"
+            style="
+              font-family: 'Bodoni Moda', serif;
+              font-size: 1.06rem;
+              color: #222;
+              margin-bottom: 0.1em;
+            "
+            >Name</label
+          >
+          <input
+            type="text"
+            id="contact-name"
+            name="name"
+            required
+            style="
+              padding: 0.7em 1em;
+              border-radius: 6px;
+              border: 1px solid #e3e3e3;
+              font-family: 'Roboto', sans-serif;
+              font-size: 1rem;
+              background: #fff;
+            "
+          />
+          <label
+            for="contact-email"
+            style="
+              font-family: 'Bodoni Moda', serif;
+              font-size: 1.06rem;
+              color: #222;
+              margin-bottom: 0.1em;
+            "
+            >Email</label
+          >
+          <input
+            type="email"
+            id="contact-email"
+            name="email"
+            required
+            style="
+              padding: 0.7em 1em;
+              border-radius: 6px;
+              border: 1px solid #e3e3e3;
+              font-family: 'Roboto', sans-serif;
+              font-size: 1rem;
+              background: #fff;
+            "
+          />
+          <label
+            for="contact-message"
+            style="
+              font-family: 'Bodoni Moda', serif;
+              font-size: 1.06rem;
+              color: #222;
+              margin-bottom: 0.1em;
+            "
+            >Message</label
+          >
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="5"
+            required
+            style="
+              padding: 0.7em 1em;
+              border-radius: 6px;
+              border: 1px solid #e3e3e3;
+              font-family: 'Roboto', sans-serif;
+              font-size: 1rem;
+              background: #fff;
+              resize: vertical;
+            "
+          ></textarea>
+          <button type="submit" class="contact-btn">Send Message</button>
+        </form>
+        <p
+          id="form-status"
+          style="
+            margin-top: 1em;
+            font-family: 'Roboto', sans-serif;
+            color: #8f7a5a;
+          "
+        ></p>
+      </section>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <!-- Column 1 -->
+      <div class="footer-column">
+        <h3>Ember & Oak</h3>
+        <p>
+          We create candles designed around emotion — blending natural
+          ingredients with timeless design for moments of calm and connection.
+        </p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-column">
+        <h3>Browse</h3>
+        <a href="#header">Home</a>
+        <a href="collections.html">Collections</a>
+        <a href="Text/Story.html">Our Story</a>
+        <a href="Text/Ethos.html">Contact</a>
+        <a href="Text/CandleCare.html">Candle Care</a>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-column footer-contact">
+        <h3>Contact</h3>
+        <p><i>✉️</i> info@eandoak.ca</p>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="footer-column newsletter">
+        <h3 class="newsletterTitle">
+          Be the first to get your hands on new scents!
+        </h3>
+        <form
+          action="https://eandoak.us3.list-manage.com/subscribe/post?u=0a965ac48983e8ae55ae3ab49&amp;id=29e2e20e94&amp;f_id=000aa6e0f0"
+          method="post"
+          class="newsletter-form"
+          target="_blank"
+        >
+          <input
+            type="email"
+            name="EMAIL"
+            placeholder="Enter your email"
+            required
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="footer-bottom">
+        <div
+          class="footer-bottom-container"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <div
+            class="footer-copyright"
+            style="color: #ffffff99; font-size: 0.9rem"
+          >
+            Secure payments by Square &nbsp; | &nbsp; © 2025 Evan Mottley and
+            Ember & Oak. All rights reserved.
+          </div>
+          <div class="footer-payment-methods">
+            <ul class="payment-icons">
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Visa"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="6"
+                    y="16"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="10"
+                    fill="#1A1F71"
+                  >
+                    VISA
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Mastercard"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <circle cx="16" cy="12" r="6" fill="#EB001B" />
+                  <circle cx="22" cy="12" r="6" fill="#F79E1B" />
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="American Express"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#2E77BC"
+                  >
+                    AMEX
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Discover"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#FF6F00"
+                  >
+                    DISCOVER
+                  </text>
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <style>
+      /* FAQ Accordion Styles */
+      .faq-accordion {
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+        background: #f9faf7;
+        padding: 0.3em 0.6em;
+        box-shadow: 0 1px 5px #0001;
+      }
+      .faq-item + .faq-item {
+        border-top: 1px solid #e6e6e6;
+      }
+      .faq-question {
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        outline: none;
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.08rem;
+        color: #0d0d0d;
+        padding: 1.1em 0.2em 1.1em 0.1em;
+        cursor: pointer;
+        transition: background 0.2s;
+        position: relative;
+      }
+      .faq-question:after {
+        content: "+";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.1rem;
+        color: #0d0d0d;
+        transition: transform 0.3s;
+      }
+      .faq-item.active .faq-question:after {
+        content: "–";
+        transform: translateY(-50%) rotate(180deg);
+      }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        background: none;
+        padding: 0 0.2em;
+        opacity: 0.7;
+      }
+      .faq-item.active .faq-answer {
+        max-height: 200px;
+        padding-bottom: 1.2em;
+        opacity: 1;
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
+      }
+      .faq-link {
+        color: #0d0d0d !important;
+        text-decoration: underline;
+        transition: color 0.2s;
+      }
+      .faq-link:hover {
+        color: #444 !important;
+      }
+      .contact-link {
+        color: #0d0d0d !important;
+        text-decoration: underline;
+        transition: color 0.2s;
+      }
+      .contact-link:hover {
+        color: #444 !important;
+      }
+      .contact-btn {
+        margin-top: 0.5em;
+        font-family: "Bodoni Moda", serif;
+        font-size: 1.06rem;
+        background: #fff;
+        color: #0d0d0d;
+        border: 1px solid #0d0d0d;
+        border-radius: 6px;
+        padding: 0.7em 1.6em;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+      .contact-btn:hover {
+        background: #0d0d0d;
+        color: #fff;
+      }
+    </style>
+    <script>
+      // FAQ Accordion logic
+      document.addEventListener("DOMContentLoaded", function () {
+        var faqItems = document.querySelectorAll(".faq-accordion .faq-item");
+        faqItems.forEach(function (item) {
+          var btn = item.querySelector(".faq-question");
+          btn.addEventListener("click", function () {
+            // Collapse all except clicked
+            faqItems.forEach(function (other) {
+              if (other !== item) other.classList.remove("active");
+            });
+            item.classList.toggle("active");
+          });
+        });
+      });
+      document
+        .querySelector('form[action="https://formspree.io/f/movkkpog"]')
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const status = document.getElementById("form-status");
+          const data = new FormData(this);
+          const response = await fetch(this.action, {
+            method: this.method,
+            body: data,
+            headers: { Accept: "application/json" },
+          });
+          if (response.ok) {
+            status.textContent = "Thank you — your message has been sent!";
+            this.reset();
+          } else {
+            status.textContent =
+              "Oops! Something went wrong. Please try again later.";
+          }
+        });
+    </script>
+  </body>
+  <script>
+    // --- CART LOGIC WITH LOCALSTORAGE SYNC ---
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const navCartCount = document.getElementById("nav-cart-count");
+
+    function cartTotalCount() {
+      // Returns total number of items (sum of qtys)
+      return cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    }
+
+    function updateCart() {
+      navCartCount.textContent = cartTotalCount();
+      // Save to localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Attach add-to-cart buttons (re-attach after page navigation)
+    function attachCartButtons() {
+      document.querySelectorAll(".card-button").forEach((button) => {
+        button.removeEventListener("click", button._cartHandler || (() => {}));
+        button._cartHandler = function (e) {
+          e.preventDefault();
+          const card = button.closest(".card");
+          const name = card.querySelector(".card-title").textContent;
+          const price = parseFloat(card.getAttribute("data-price")) || 0;
+          // Check if item with same name exists
+          const existing = cart.find((item) => item.name === name);
+          if (existing) {
+            existing.qty = (existing.qty || 1) + 1;
+          } else {
+            cart.push({ name, price, qty: 1 });
+          }
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateCart();
+        };
+        button.addEventListener("click", button._cartHandler);
+      });
+    }
+
+    // Listen for storage changes (cross-tab sync)
+    window.addEventListener("storage", (event) => {
+      if (event.key === "cart") {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCart();
+      }
+    });
+
+    // Initial setup
+    updateCart();
+    attachCartButtons();
+  </script>
+  <script>
+    // --- INSTANT PAGE NAVIGATION (VANILLA JS) ---
+    document.addEventListener("DOMContentLoaded", function () {
+      // Only handle navigation for internal links within nav
+      function isInternalLink(a) {
+        return (
+          a.hostname === window.location.hostname &&
+          !a.hasAttribute("target") &&
+          !a.href.startsWith("mailto:") &&
+          !a.href.startsWith("tel:")
+        );
+      }
+      function getPageContent(html) {
+        // Extract #page-content inner HTML from the fetched HTML string
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+        const found = temp.querySelector("#page-content");
+        return found ? found.innerHTML : "";
+      }
+      const pageContent = () => document.getElementById("page-content");
+      function fadeOutInSwap(newHtml, cb) {
+        const el = pageContent();
+        el.style.opacity = "0";
+        setTimeout(() => {
+          el.innerHTML = newHtml;
+          el.style.opacity = "0";
+          // Re-attach dynamic handlers (cart, etc.)
+          if (typeof attachCartButtons === "function") attachCartButtons();
+          // Optionally, re-run updateCart to update UI
+          if (typeof updateCart === "function") updateCart();
+          setTimeout(() => {
+            el.style.opacity = "1";
+            if (cb) cb();
+          }, 20);
+        }, 400);
+      }
+
+      function handleLinkClick(e) {
+        // Only left click, no ctrl/meta, and internal link
+        if (
+          e.defaultPrevented ||
+          e.button !== 0 ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey
+        )
+          return;
+        let a = e.target;
+        while (a && a.tagName !== "A") a = a.parentElement;
+        if (!a || !a.getAttribute("href")) return;
+        if (!isInternalLink(a)) return;
+        const href = a.getAttribute("href");
+        // Only handle real navigation (not just #anchor)
+        if (href.startsWith("#")) return;
+        e.preventDefault();
+        fetch(href)
+          .then((resp) => resp.text())
+          .then((html) => {
+            const newContent = getPageContent(html);
+            if (newContent) {
+              fadeOutInSwap(newContent, () => {
+                window.scrollTo(0, 0);
+              });
+              history.pushState(null, "", href);
+            } else {
+              window.location = href; // fallback
+            }
+          })
+          .catch(() => {
+            window.location = href;
+          });
+      }
+      // Attach to nav links
+      function navListenerSetup() {
+        document.querySelectorAll("nav a").forEach((a) => {
+          a.removeEventListener("click", handleLinkClick);
+          a.addEventListener("click", handleLinkClick);
+        });
+      }
+      navListenerSetup();
+      // Re-attach nav listeners after swaps
+      document.addEventListener("pageContentSwapped", navListenerSetup);
+
+      // Handle browser back/forward
+      window.addEventListener("popstate", function () {
+        fetch(window.location.pathname)
+          .then((resp) => resp.text())
+          .then((html) => {
+            const newContent = getPageContent(html);
+            if (newContent) {
+              fadeOutInSwap(newContent, () => {
+                window.scrollTo(0, 0);
+              });
+            } else {
+              window.location.reload();
+            }
+          })
+          .catch(() => {
+            window.location.reload();
+          });
+      });
+    });
+  </script>
+</html>

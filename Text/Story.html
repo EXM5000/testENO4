@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Story | Ember & Oak</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "roboto";
+        background-color: #f4f7f2;
+        color: #0d0d0d;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        color: #fff;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      nav .logo {
+        font-size: 1.3rem;
+        font-weight: 400;
+        padding-left: 3.5%;
+        color: #000000a6;
+        font-family: "bodoni moda", serif;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+        padding-right: 5%;
+      }
+
+      nav ul li a {
+        font-family: "bodoni moda", serif;
+        color: #000000a6;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .nav-cart a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1.1rem;
+        color: #ffffffa6;
+        text-decoration: none;
+        position: relative;
+      }
+
+      #nav-cart-count {
+        background: #ffffffa6;
+        color: #000000;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0px 4px;
+        border-radius: 50%;
+        position: absolute;
+        top: -8px;
+        right: -10px;
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: #0d0d0d;
+        color: #f4f7f2;
+        padding: 80px 10%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 40px;
+        text-align: left;
+      }
+
+      .footer h3 {
+        margin-bottom: 15px;
+        font-weight: 400;
+        color: #f4f7f2;
+      }
+
+      .footer p {
+        line-height: 1.6;
+        color: #ffffffc9;
+      }
+
+      .footer-column {
+        max-width: 15vw;
+      }
+
+      .footer-column a {
+        display: block;
+        color: #ffffffc9;
+        text-decoration: none;
+        margin: 6px 0;
+        transition: color 0.3s ease;
+      }
+
+      .footer-column a:hover {
+        color: #fff;
+      }
+
+      .footer-contact i {
+        margin-right: 8px;
+      }
+
+      .newsletter-form input[type="email"] {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .newsletter-form button {
+        padding: 10px 25px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .newsletter-form button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-bottom {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 60px;
+        font-size: 0.9rem;
+        color: #ffffff99;
+      }
+
+      /* Story image placeholders */
+      .story-image-placeholder {
+        height: 250px;
+        background-color: #ddd;
+        margin: 20px 0;
+      }
+
+      .payment-icons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+      }
+
+      .payment-icon {
+        width: 60px;
+        height: 36px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="../index.html" style="text-decoration: none; color: inherit"
+          >Ember & Oak</a
+        >
+      </div>
+      <ul>
+        <li><a href="Story.html">About</a></li>
+        <li><a href="Ethos.html">Contact</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="CandleCare.html">Tending</a></li>
+        <li class="nav-cart">
+          <a href="../Functionality/cart.html" id="nav-cart-button">
+            🛒 <span id="nav-cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Story Section -->
+    <div
+      id="page-content"
+      style="
+        padding-top: 140px;
+        padding-bottom: 60px;
+        max-width: 700px;
+        margin: 0 auto;
+      "
+    >
+      <h1
+        style="
+          font-family: 'Bodoni Moda', serif;
+          font-weight: 500;
+          font-size: 2.5rem;
+          margin-bottom: 1.5rem;
+          letter-spacing: 0.03em;
+        "
+      >
+        Our Story
+      </h1>
+      <p
+        style="
+          font-size: 1.2rem;
+          line-height: 1.7;
+          color: #222;
+          font-family: 'Roboto', sans-serif;
+        "
+      >
+        Ember & Oak was born from a curiosity for creation and a passion for
+        business. Years ago, We discovered the joys and challenges of
+        entrepreneurship through early ventures with friends, from a clothing
+        brand called Loco to experimenting with innovative product ideas. One of
+        our most memorable projects was Flame, a line of concrete candles.
+        <br />
+        <img
+          src="../img/IMG_1062.JPG"
+          alt="Flame candle project example"
+          style="
+            display: block;
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+            margin: 20px 0;
+            object-position: center 30%;
+          "
+        />
+        Flame started as a simple idea: taking cheap, durable concrete and
+        turning it into something beautiful. We experimented with molds, scents,
+        and designs, learning firsthand the challenges of production - from jars
+        that crumbled to dye that bled onto hands. Despite the setbacks, Flame
+        taught us the importance of product quality, attention to detail, and
+        resilience in running a business.
+        <br />
+        <img
+          src="../img/HEIC to JPG 4423.jpg"
+          alt="Ember & Oak candle example"
+          style="
+            display: block;
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            margin: 20px 0;
+          "
+        />
+        When Ember & Oak was born, it was a natural evolution from that. The
+        name “Ember” reflects the sparks left behind by Flame, while “Oak” comes
+        from our signature wooden wicks. This time, guided by minimalist
+        aesthetics and a newfound love for thoughtful sensory experiences, we
+        are able to create candles that bring moments of calm, connection, and
+        inspiration into everyday life.
+        <br />
+        <img
+          src="../img/IMG_7711.JPG"
+          alt="Ember & Oak candle example"
+          style="
+            display: block;
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            margin: 20px 0;
+          "
+        />
+        Thank you so much, to everyone who has made this venture possible, and
+        to everyone who continues to support us. The best is yet to come!
+        <br /><br /><br />
+      </p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <!-- Column 1 -->
+      <div class="footer-column">
+        <h3>Ember & Oak</h3>
+        <p>
+          We create candles designed around emotion — blending natural
+          ingredients with timeless design for moments of calm and connection.
+        </p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-column">
+        <h3>Browse</h3>
+        <a href="#header">Home</a>
+        <a href="collections.html">Collections</a>
+        <a href="Text/Story.html">Our Story</a>
+        <a href="Text/Ethos.html">Contact</a>
+        <a href="Text/CandleCare.html">Candle Care</a>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-column footer-contact">
+        <h3>Contact</h3>
+        <p><i>✉️</i> info@eandoak.ca</p>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="footer-column newsletter">
+        <h3 class="newsletterTitle">
+          Be the first to get your hands on new scents!
+        </h3>
+        <form
+          action="https://eandoak.us3.list-manage.com/subscribe/post?u=0a965ac48983e8ae55ae3ab49&amp;id=29e2e20e94&amp;f_id=000aa6e0f0"
+          method="post"
+          class="newsletter-form"
+          target="_blank"
+        >
+          <input
+            type="email"
+            name="EMAIL"
+            placeholder="Enter your email"
+            required
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="footer-bottom">
+        <div
+          class="footer-bottom-container"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <div
+            class="footer-copyright"
+            style="color: #ffffff99; font-size: 0.9rem"
+          >
+            Secure payments by Square &nbsp; | &nbsp; © 2025 Evan Mottley and
+            Ember & Oak. All rights reserved.
+          </div>
+          <div class="footer-payment-methods">
+            <ul class="payment-icons">
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Visa"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="6"
+                    y="16"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="10"
+                    fill="#1A1F71"
+                  >
+                    VISA
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Mastercard"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <circle cx="16" cy="12" r="6" fill="#EB001B" />
+                  <circle cx="22" cy="12" r="6" fill="#F79E1B" />
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="American Express"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#2E77BC"
+                  >
+                    AMEX
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Discover"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#FF6F00"
+                  >
+                    DISCOVER
+                  </text>
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    // --- CART LOGIC WITH LOCALSTORAGE SYNC ---
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const navCartCount = document.getElementById("nav-cart-count");
+
+    function cartTotalCount() {
+      // Returns total number of items (sum of qtys)
+      return cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    }
+
+    function updateCart() {
+      navCartCount.textContent = cartTotalCount();
+      // Save to localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Attach add-to-cart buttons (re-attach after page navigation)
+    function attachCartButtons() {
+      document.querySelectorAll(".card-button").forEach((button) => {
+        button.removeEventListener("click", button._cartHandler || (() => {}));
+        button._cartHandler = function (e) {
+          e.preventDefault();
+          const card = button.closest(".card");
+          const name = card.querySelector(".card-title").textContent;
+          const price = parseFloat(card.getAttribute("data-price")) || 0;
+          // Check if item with same name exists
+          const existing = cart.find((item) => item.name === name);
+          if (existing) {
+            existing.qty = (existing.qty || 1) + 1;
+          } else {
+            cart.push({ name, price, qty: 1 });
+          }
+          localStorage.setItem("cart", JSON.stringify(cart));
+          updateCart();
+        };
+        button.addEventListener("click", button._cartHandler);
+      });
+    }
+
+    // Listen for storage changes (cross-tab sync)
+    window.addEventListener("storage", (event) => {
+      if (event.key === "cart") {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCart();
+      }
+    });
+
+    // Initial setup
+    updateCart();
+    attachCartButtons();
+  </script>
+  <script>
+    // --- INSTANT PAGE NAVIGATION (VANILLA JS) ---
+    document.addEventListener("DOMContentLoaded", function () {
+      // Only handle navigation for internal links within nav
+      function isInternalLink(a) {
+        return (
+          a.hostname === window.location.hostname &&
+          !a.hasAttribute("target") &&
+          !a.href.startsWith("mailto:") &&
+          !a.href.startsWith("tel:")
+        );
+      }
+      function getPageContent(html) {
+        // Extract #page-content inner HTML from the fetched HTML string
+        const temp = document.createElement("div");
+        temp.innerHTML = html;
+        const found = temp.querySelector("#page-content");
+        return found ? found.innerHTML : "";
+      }
+      const pageContent = () => document.getElementById("page-content");
+      function fadeOutInSwap(newHtml, cb) {
+        const el = pageContent();
+        el.style.opacity = "0";
+        setTimeout(() => {
+          el.innerHTML = newHtml;
+          el.style.opacity = "0";
+          // Re-attach dynamic handlers (cart, etc.)
+          if (typeof attachCartButtons === "function") attachCartButtons();
+          // Optionally, re-run updateCart to update UI
+          if (typeof updateCart === "function") updateCart();
+          setTimeout(() => {
+            el.style.opacity = "1";
+            if (cb) cb();
+          }, 20);
+        }, 400);
+      }
+
+      function handleLinkClick(e) {
+        // Only left click, no ctrl/meta, and internal link
+        if (
+          e.defaultPrevented ||
+          e.button !== 0 ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey
+        )
+          return;
+        let a = e.target;
+        while (a && a.tagName !== "A") a = a.parentElement;
+        if (!a || !a.getAttribute("href")) return;
+        if (!isInternalLink(a)) return;
+        const href = a.getAttribute("href");
+        // Only handle real navigation (not just #anchor)
+        if (href.startsWith("#")) return;
+        e.preventDefault();
+        fetch(href)
+          .then((resp) => resp.text())
+          .then((html) => {
+            const newContent = getPageContent(html);
+            if (newContent) {
+              fadeOutInSwap(newContent, () => {
+                window.scrollTo(0, 0);
+              });
+              history.pushState(null, "", href);
+            } else {
+              window.location = href; // fallback
+            }
+          })
+          .catch(() => {
+            window.location = href;
+          });
+      }
+      // Attach to nav links
+      function navListenerSetup() {
+        document.querySelectorAll("nav a").forEach((a) => {
+          a.removeEventListener("click", handleLinkClick);
+          a.addEventListener("click", handleLinkClick);
+        });
+      }
+      navListenerSetup();
+      // Re-attach nav listeners after swaps
+      document.addEventListener("pageContentSwapped", navListenerSetup);
+
+      // Handle browser back/forward
+      window.addEventListener("popstate", function () {
+        fetch(window.location.pathname)
+          .then((resp) => resp.text())
+          .then((html) => {
+            const newContent = getPageContent(html);
+            if (newContent) {
+              fadeOutInSwap(newContent, () => {
+                window.scrollTo(0, 0);
+              });
+            } else {
+              window.location.reload();
+            }
+          })
+          .catch(() => {
+            window.location.reload();
+          });
+      });
+    });
+  </script>
+</html>
