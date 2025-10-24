@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Cart | Ember & Oak</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "roboto";
+        background-color: #f4f7f2;
+        color: #0d0d0d;
+        overflow-x: hidden;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        color: #fff;
+        padding: 40px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      nav .logo {
+        font-size: 1.3rem;
+        font-weight: 400;
+        padding-left: 3.5%;
+        color: #000000a6;
+        font-family: "bodoni moda", serif;
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+        padding-right: 5%;
+      }
+
+      nav ul li a {
+        font-family: "bodoni moda", serif;
+        color: #000000a6;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .nav-cart a {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 1.1rem;
+        color: #ffffffa6;
+        text-decoration: none;
+        position: relative;
+      }
+
+      #nav-cart-count {
+        background: #ffffffa6;
+        color: #000000;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0px 4px;
+        border-radius: 50%;
+        position: absolute;
+        top: -8px;
+        right: -10px;
+      }
+
+      main {
+        padding-top: 140px;
+        max-width: 700px;
+        min-height: 100vh;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      h1 {
+        font-size: 2.3rem;
+        font-weight: 400;
+        margin-bottom: 40px;
+        color: #0d0d0d;
+        text-align: center;
+      }
+
+      ul#cart-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      li.cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .item-details {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .item-name {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .item-price {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 0.95rem;
+      }
+
+      .item-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input.item-qty {
+        width: 50px;
+        text-align: center;
+        font-family: inherit;
+        font-size: 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: transparent;
+        border-radius: 4px;
+        color: #0d0d0d;
+        padding: 4px;
+      }
+
+      button.remove-btn {
+        background: none;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 6px;
+        color: #0d0d0d;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+      }
+
+      button.remove-btn:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .cart-summary {
+        margin-top: 30px;
+        text-align: right;
+        font-size: 1.1rem;
+      }
+
+      .checkout-btn {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 12px 25px;
+        border: 1px solid #0d0d0d;
+        color: #0d0d0d;
+        background: transparent;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .checkout-btn:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 600px) {
+        li.cart-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+        .item-controls {
+          width: 100%;
+          justify-content: space-between;
+        }
+        main {
+          padding: 120px 20px 60px;
+        }
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: #0d0d0d;
+        color: #f4f7f2;
+        padding: 80px 10%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 40px;
+        text-align: left;
+      }
+
+      .footer h3 {
+        margin-bottom: 15px;
+        font-weight: 400;
+        color: #f4f7f2;
+      }
+
+      .footer p {
+        line-height: 1.6;
+        color: #ffffffc9;
+      }
+
+      .footer-column {
+        max-width: 15vw;
+      }
+
+      .footer-column a {
+        display: block;
+        color: #ffffffc9;
+        text-decoration: none;
+        margin: 6px 0;
+        transition: color 0.3s ease;
+      }
+
+      .footer-column a:hover {
+        color: #fff;
+      }
+
+      .footer-contact i {
+        margin-right: 8px;
+      }
+
+      .newsletter-form input[type="email"] {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .newsletter-form button {
+        padding: 10px 25px;
+        border-radius: 8px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .newsletter-form button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-bottom {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 60px;
+        font-size: 0.9rem;
+        color: #ffffff99;
+      }
+
+      .placeholder {
+        height: 15vh;
+      }
+
+      #shipping-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      #shipping-modal form input {
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 6px;
+      }
+      #shipping-modal form button {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .payment-icons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: center;
+      }
+
+      .payment-icon {
+        width: 60px;
+        height: 36px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <a href="../index.html" style="text-decoration: none; color: inherit"
+          >Ember & Oak</a
+        >
+      </div>
+      <ul>
+        <li><a href="../Text/Story.html">About</a></li>
+        <li><a href="../Text/Ethos.html">Contact</a></li>
+        <li><a href="../collections.html">Collections</a></li>
+        <li><a href="../Text/CandleCare.html">Tending</a></li>
+        <li class="nav-cart">
+          <a href="Functionality/cart.html" id="nav-cart-button">
+            🛒 <span id="nav-cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <h1>Your Cart</h1>
+      <ul id="cart-list"></ul>
+      <div class="cart-summary">
+        <p><strong>Total:</strong> $<span id="cart-total">0.00</span></p>
+        <button class="checkout-btn" type="button">Proceed to Checkout</button>
+      </div>
+
+      <section class="placeholder"></section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+      <!-- Column 1 -->
+      <div class="footer-column">
+        <h3>Ember & Oak</h3>
+        <p>
+          We create candles designed around emotion — blending natural
+          ingredients with timeless design for moments of calm and connection.
+        </p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-column">
+        <h3>Browse</h3>
+        <a href="#header">Home</a>
+        <a href="collections.html">Collections</a>
+        <a href="Text/Story.html">Our Story</a>
+        <a href="Text/Ethos.html">Contact</a>
+        <a href="Text/CandleCare.html">Candle Care</a>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-column footer-contact">
+        <h3>Contact</h3>
+        <p><i>✉️</i> info@eandoak.ca</p>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="footer-column newsletter">
+        <h3 class="newsletterTitle">
+          Be the first to get your hands on new scents!
+        </h3>
+        <form
+          action="https://eandoak.us3.list-manage.com/subscribe/post?u=0a965ac48983e8ae55ae3ab49&amp;id=29e2e20e94&amp;f_id=000aa6e0f0"
+          method="post"
+          class="newsletter-form"
+          target="_blank"
+        >
+          <input
+            type="email"
+            name="EMAIL"
+            placeholder="Enter your email"
+            required
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="footer-bottom">
+        <div
+          class="footer-bottom-container"
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <div
+            class="footer-copyright"
+            style="color: #ffffff99; font-size: 0.9rem"
+          >
+            Secure payments by Square &nbsp; | &nbsp; © 2025 Evan Mottley and
+            Ember & Oak. All rights reserved.
+          </div>
+          <div class="footer-payment-methods">
+            <ul class="payment-icons">
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Visa"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="6"
+                    y="16"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="10"
+                    fill="#1A1F71"
+                  >
+                    VISA
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Mastercard"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <circle cx="16" cy="12" r="6" fill="#EB001B" />
+                  <circle cx="22" cy="12" r="6" fill="#F79E1B" />
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="American Express"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#2E77BC"
+                  >
+                    AMEX
+                  </text>
+                </svg>
+              </li>
+              <li>
+                <svg
+                  class="payment-icon"
+                  viewBox="0 0 38 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-label="Discover"
+                >
+                  <rect width="38" height="24" rx="4" fill="white" />
+                  <text
+                    x="4"
+                    y="15"
+                    font-family="Arial, sans-serif"
+                    font-weight="bold"
+                    font-size="7"
+                    fill="#FF6F00"
+                  >
+                    DISCOVER
+                  </text>
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Shipping Modal -->
+    <div
+      id="shipping-modal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          max-width: 400px;
+          width: 90%;
+        "
+      >
+        <h2>Shipping Information</h2>
+        <form
+          id="shipping-form"
+          action="https://formspree.io/f/movkkpog"
+          method="POST"
+        >
+          <input
+            type="text"
+            name="firstname"
+            placeholder="First Name"
+            required
+            style="width: 100%; margin-bottom: 8px"
+          />
+          <input
+            type="text"
+            name="lastname"
+            placeholder="Last Name"
+            required
+            style="width: 100%; margin-bottom: 8px"
+          />
+          <select
+            name="country"
+            id="country"
+            required
+            style="width: 100%; margin-bottom: 8px"
+          >
+            <option value="Canada" selected>Canada</option>
+            <option value="United States">United States</option>
+          </select>
+          <input
+            type="text"
+            name="address"
+            placeholder="Street Address"
+            required
+            style="width: 100%; margin-bottom: 8px"
+          />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            required
+            style="width: 100%; margin-bottom: 8px"
+          />
+
+          <div id="canada-fields">
+            <input
+              type="text"
+              name="province"
+              placeholder="Province"
+              style="width: 100%; margin-bottom: 8px"
+            />
+            <input
+              type="text"
+              name="postalCode"
+              placeholder="Postal Code"
+              style="width: 100%; margin-bottom: 8px"
+            />
+          </div>
+
+          <div id="us-fields" style="display: none">
+            <input
+              type="text"
+              name="state"
+              placeholder="State"
+              style="width: 100%; margin-bottom: 8px"
+            />
+            <input
+              type="text"
+              name="zipCode"
+              placeholder="ZIP Code"
+              style="width: 100%; margin-bottom: 8px"
+            />
+          </div>
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            style="width: 100%; margin-bottom: 12px"
+          />
+          <input type="hidden" name="cart" id="cart-data" />
+          <input type="hidden" name="total" id="cart-total-hidden" />
+          <button type="submit" style="width: 100%; padding: 10px">
+            Submit & Proceed to Checkout
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartList = document.getElementById("cart-list");
+      const cartTotal = document.getElementById("cart-total");
+      const cartCount = document.getElementById("nav-cart-count");
+
+      function addToCart(newItem) {
+        const existingIndex = cart.findIndex(
+          (item) => item.name === newItem.name
+        );
+        if (existingIndex !== -1) {
+          cart[existingIndex].qty =
+            (cart[existingIndex].qty || 1) + (newItem.qty || 1);
+        } else {
+          cart.push({ ...newItem, qty: newItem.qty || 1 });
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+      }
+
+      function renderCart() {
+        cartList.innerHTML = "";
+        let total = 0;
+
+        if (cart.length === 0) {
+          cartList.innerHTML =
+            '<p style="text-align:center;color:rgba(0,0,0,0.6);">Your cart is empty.</p>';
+        }
+
+        cart.forEach((item, index) => {
+          const quantity = item.qty || 1;
+          total += item.price * quantity;
+          const li = document.createElement("li");
+          li.className = "cart-item";
+          li.innerHTML = `
+          <div class="item-details">
+            <span class="item-name">${item.name}</span>
+            <span class="item-price">$${item.price.toFixed(2)}</span>
+          </div>
+          <div class="item-controls">
+            <input type="number" min="1" value="${quantity}" class="item-qty" data-index="${index}">
+            <button class="remove-btn" data-index="${index}">Remove</button>
+          </div>
+        `;
+          cartList.appendChild(li);
+        });
+
+        cartTotal.textContent = total.toFixed(2);
+        const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+        cartCount.textContent = totalQty;
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+
+      cartList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-btn")) {
+          const index = e.target.getAttribute("data-index");
+          cart.splice(index, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        }
+      });
+
+      cartList.addEventListener("change", (e) => {
+        if (e.target.classList.contains("item-qty")) {
+          const index = e.target.getAttribute("data-index");
+          const newQty = Math.max(1, parseInt(e.target.value) || 1);
+          cart[index].qty = newQty;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        }
+      });
+
+      // Example usage: addToCart({name: "Sample Item", price: 10.00});
+      // This function should be called when an add-to-cart button is clicked elsewhere in your site.
+
+      renderCart();
+
+      const checkoutBtn = document.querySelector(".checkout-btn");
+
+      const modal = document.getElementById("shipping-modal");
+      const shippingForm = document.getElementById("shipping-form");
+
+      checkoutBtn.addEventListener("click", () => {
+        if (cart.length === 0) {
+          alert("Your cart is empty!");
+          return;
+        }
+        modal.style.display = "flex";
+      });
+
+      // Enhanced shipping form submission with validation, sanitization, and Stallion format
+      shippingForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        // Helper sanitize function
+        function sanitize(str) {
+          return String(str || "")
+            .replace(/[<>"'`]/g, "")
+            .trim();
+        }
+
+        // Province/state code lists
+        const canadianProvinces = [
+          "AB",
+          "BC",
+          "MB",
+          "NB",
+          "NL",
+          "NS",
+          "NT",
+          "NU",
+          "ON",
+          "PE",
+          "QC",
+          "SK",
+          "YT",
+          "Alberta",
+          "British Columbia",
+          "Manitoba",
+          "New Brunswick",
+          "Newfoundland and Labrador",
+          "Nova Scotia",
+          "Northwest Territories",
+          "Nunavut",
+          "Ontario",
+          "Prince Edward Island",
+          "Quebec",
+          "Saskatchewan",
+          "Yukon",
+        ];
+        const usStates = [
+          "AL",
+          "AK",
+          "AZ",
+          "AR",
+          "CA",
+          "CO",
+          "CT",
+          "DE",
+          "FL",
+          "GA",
+          "HI",
+          "ID",
+          "IL",
+          "IN",
+          "IA",
+          "KS",
+          "KY",
+          "LA",
+          "ME",
+          "MD",
+          "MA",
+          "MI",
+          "MN",
+          "MS",
+          "MO",
+          "MT",
+          "NE",
+          "NV",
+          "NH",
+          "NJ",
+          "NM",
+          "NY",
+          "NC",
+          "ND",
+          "OH",
+          "OK",
+          "OR",
+          "PA",
+          "RI",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "UT",
+          "VT",
+          "VA",
+          "WA",
+          "WV",
+          "WI",
+          "WY",
+          "Alabama",
+          "Alaska",
+          "Arizona",
+          "Arkansas",
+          "California",
+          "Colorado",
+          "Connecticut",
+          "Delaware",
+          "Florida",
+          "Georgia",
+          "Hawaii",
+          "Idaho",
+          "Illinois",
+          "Indiana",
+          "Iowa",
+          "Kansas",
+          "Kentucky",
+          "Louisiana",
+          "Maine",
+          "Maryland",
+          "Massachusetts",
+          "Michigan",
+          "Minnesota",
+          "Mississippi",
+          "Missouri",
+          "Montana",
+          "Nebraska",
+          "Nevada",
+          "New Hampshire",
+          "New Jersey",
+          "New Mexico",
+          "New York",
+          "North Carolina",
+          "North Dakota",
+          "Ohio",
+          "Oklahoma",
+          "Oregon",
+          "Pennsylvania",
+          "Rhode Island",
+          "South Carolina",
+          "South Dakota",
+          "Tennessee",
+          "Texas",
+          "Utah",
+          "Vermont",
+          "Virginia",
+          "Washington",
+          "West Virginia",
+          "Wisconsin",
+          "Wyoming",
+        ];
+
+        // Gather and sanitize form data
+        const formData = new FormData(shippingForm);
+        const country = formData.get("country");
+        let province = "";
+        let postalCode = "";
+        let state = "";
+        let zipCode = "";
+        if (country === "Canada") {
+          province = sanitize(formData.get("province"));
+          postalCode = sanitize(formData.get("postalCode"));
+        } else {
+          state = sanitize(formData.get("state"));
+          zipCode = sanitize(formData.get("zipCode"));
+        }
+
+        // Validate required fields
+        const requiredFields = [
+          "firstname",
+          "lastname",
+          "address",
+          "city",
+          "email",
+        ];
+        for (const field of requiredFields) {
+          if (!sanitize(formData.get(field))) {
+            alert("Please fill out all required fields.");
+            return;
+          }
+        }
+        if (country === "Canada" && (!province || !postalCode)) {
+          alert("Please enter a province and postal code.");
+          return;
+        }
+        if (country === "United States" && (!state || !zipCode)) {
+          alert("Please enter a state and ZIP code.");
+          return;
+        }
+        // Email format validation
+        const email = sanitize(formData.get("email"));
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        // Province/state strict validation
+        if (country === "Canada") {
+          let provInput = province.toUpperCase();
+          let valid = canadianProvinces.some(
+            (prov) => provInput === prov.toUpperCase()
+          );
+          if (!valid) {
+            alert(
+              "Please enter a valid Canadian province (e.g. ON, QC, BC, AB, etc)."
+            );
+            return;
+          }
+        }
+        if (country === "United States") {
+          let stateInput = state.toUpperCase();
+          let valid = usStates.some((st) => stateInput === st.toUpperCase());
+          if (!valid) {
+            alert("Please enter a valid US state (e.g. NY, CA, TX, etc).");
+            return;
+          }
+        }
+
+        // Prepare Stallion-compatible shipping address
+        const shippingData = {
+          firstName: sanitize(formData.get("firstname")),
+          lastName: sanitize(formData.get("lastname")),
+          address_line_1: sanitize(formData.get("address")) || "Unknown St",
+          city: sanitize(formData.get("city")),
+          country: country,
+          province: province,
+          state: state,
+          postalCode: postalCode,
+          zipCode: zipCode,
+          email: email,
+        };
+
+        // Remove empty keys for Stallion API
+        Object.keys(shippingData).forEach(
+          (k) =>
+            (shippingData[k] === "" || shippingData[k] == null) &&
+            delete shippingData[k]
+        );
+
+        // Sanitize cart items
+        const sanitizedCart = cart.map((item) => ({
+          name: sanitize(item.name),
+          price: Number(item.price),
+          qty: Math.max(1, parseInt(item.qty) || 1),
+        }));
+
+        // Set hidden fields for Formspree
+        document.getElementById("cart-data").value =
+          JSON.stringify(sanitizedCart);
+        document.getElementById("cart-total-hidden").value =
+          cartTotal.textContent;
+
+        try {
+          // 1. Submit to Formspree
+          const formspreeRes = await fetch("https://formspree.io/f/movkkpog", {
+            method: "POST",
+            body: new FormData(shippingForm),
+            headers: { Accept: "application/json" },
+          });
+          if (!formspreeRes.ok) {
+            alert("Failed to send form data. Please try again.");
+            return;
+          }
+
+          // 2. Generate checkout link (Stallion-compatible format)
+          const response = await fetch(
+            "https://eno-site3-backend-kpxg24fpm-evan-mottleys-projects.vercel.app/api/create-checkout-link",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                cartItems: sanitizedCart,
+                shippingData: shippingData,
+              }),
+            }
+          );
+          const data = await response.json();
+          if (response.ok && data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+          } else {
+            console.error("Backend returned an error:", data);
+            alert("Failed to create checkout link. Please try again.");
+          }
+        } catch (err) {
+          console.error("Error:", err);
+          alert("An unexpected error occurred. Please try again.");
+        } finally {
+          modal.style.display = "none";
+        }
+      });
+
+      // Country dropdown dynamic fields
+      const countrySelect = document.getElementById("country");
+      const canadaFields = document.getElementById("canada-fields");
+      const usFields = document.getElementById("us-fields");
+
+      countrySelect.addEventListener("change", () => {
+        if (countrySelect.value === "Canada") {
+          canadaFields.style.display = "block";
+          usFields.style.display = "none";
+        } else {
+          canadaFields.style.display = "none";
+          usFields.style.display = "block";
+        }
+      });
+
+      // Close modal when clicking outside the form
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
